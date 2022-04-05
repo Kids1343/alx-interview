@@ -5,7 +5,7 @@
 """
 
 
-def pascal_triangle(self, numRows: int) -> List[List[int]]:
+def pascal_triangle(numRows: int) -> List[List[int]]:
     """
             returns a lis of lists of integers
             Args:
