@@ -2,18 +2,20 @@
 """returns the perimeter of the island described in grid"""
 
 
-def island_perimeter(grid):
-    """returns the perimeter of the island described in grid"""
-    perimeter = 0
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
-            if grid[i][j] == 1:
-                perimeter += 4
-                # cells with 2 sides touching other cells on top and bottom
-                if i > 0 and grid[i - 1][j] == 1:
-                    perimeter -= 2
-                # cells with 2 sides touching other cells left and right
-                if j > 0 and grid[i][j - 1] == 1:
-                    perimeter -= 2
+def islandPerimeter(grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        count, repeat = 0, 0
 
-    return 
+        for i in xrange(len(grid)):
+            for j in xrange(len(grid[i])):
+                if grid[i][j] == 1:
+                    count += 1
+                    if i != 0 and grid[i - 1][j] == 1:
+                        repeat += 1
+                    if j != 0 and grid[i][j - 1] == 1:
+                        repeat += 1
+
+        return 4*count - 2*repeat
