@@ -1,52 +1,31 @@
 #!/usr/bin/python3
-""" prime game interview question """
-
-
-def get_first_prime(values):
-    for i in values:
-        if isPrime(i):
-            return [v for v in values if v % i != 0]
-    return False
-
-
-def isPrime(x):
-    """ check if number is a prime number """
-    if x < 2 or x == 4:
-        return False
-    for i in range(2, x // 2):
-        if x % i == 0:
-            return False
-    return True
+""" Module for Prime Game """
 
 
 def isWinner(x, nums):
-    """ return name of the player that won the most rounds """
-    if x != len(nums):
+    """Solves Prime Game"""
+    if not nums or x < 1:
         return None
-    M = {"Turn": True, "Score": 0}
-    B = {"Turn": False, "Score": 0}
-    round = 0
-    while (x):
-        B["Turn"] = False
-        M["Turn"] = True
-        if round >= len(nums):
-            round = 0
-        current = [x for x in range(1, nums[round] + 1)]
-        while(len(current) > 1):
-            if get_first_prime(current):
-                current = get_first_prime(current)
-                if M["Turn"]:
-                    M["Turn"] = False
-                    B["Turn"] = True
-                else:
-                    B["Turn"] = False
-                    M["Turn"] = True
-        if M["Turn"]:
-            B["Score"] += 1
-        else:
-            M["Score"] += 1
-        round += 1
-        x -= 1
-    if B["Score"] < M["Score"]:
-        return 'Maria'
-    return 'Ben'
+    n = max(nums)
+    sieve = [True for _ in range(max(n + 1, 2))]
+    for i in range(2, int(pow(n, 0.5)) + 1):
+        if not sieve[i]:
+            continue
+        for j in range(i*i, n + 1, i):
+            sieve[j] = False
+
+    sieve[0] = sieve[1] = False
+    c = 0
+    for i in range(len(sieve)):
+        if sieve[i]:
+            c += 1
+        sieve[i] = c
+
+    player1 = 0
+    for n in nums:
+        player1 += sieve[n] % 2 == 1
+    if player1 * 2 == len(nums):
+        return None
+    if player1 * 2 > len(nums):
+        return "Maria"
+    return "Ben"
